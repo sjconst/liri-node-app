@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/sjconst/liri-node-app/issues"
   },
-  "homepage": "https://github.com/sjconst/liri-node-app#readme"
+  "homepage": "https://github.com/sjconst/liri-node-app#readme",
+  "dependencies": {
+    "moment": "^2.24.0"
+  }
 }
