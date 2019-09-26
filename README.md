@@ -22,13 +22,17 @@ Features include:
 ![liriNodeCountry](https://user-images.githubusercontent.com/42453320/65729913-d5d75d00-e074-11e9-803b-ec654e5ce3d6.JPG)
 
 * Instructions in case user forgets to enter in string:
-![liriNodeDemo2](https://user-images.githubusercontent.com/42453320/65730020-4aaa9700-e075-11e9-80ea-fe60f1021687.gif)
+
+![lirinode](https://user-images.githubusercontent.com/42453320/65730870-459b1700-e078-11e9-8c95-529f729fd4b8.JPG)
 
 * The ability to handle very large strings: 
+
 ![liriNodeDemo3](https://user-images.githubusercontent.com/42453320/65730184-c4db1b80-e075-11e9-9095-459cbeb23420.gif)
 (Doesn't look like a very good movie!)
 
-* And very small ones, or with characters in their name:
+* Every time a user enters in an artist/movie/song, their input is logged:
+
+![liriNodeDemo4](https://user-images.githubusercontent.com/42453320/65730743-c1489400-e077-11e9-9fba-149291e108c2.gif)
 
 
 
@@ -48,4 +52,4 @@ If you would like to clone this code and run it yourself, you will need to add y
 
 ## Authors 
 
-*Stephanie Lake - (https://github.com/sjconst)
+* Stephanie Lake - (https://github.com/sjconst)

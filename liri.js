@@ -9,9 +9,6 @@ var fs = require("fs");
 //Global Variables
 var secondArg = process.argv[2].toLowerCase();
 var command, input;
-if(process.argv[3].includes("$")){
-    console.log("put single quotes around that artist/movie")
-};
 //How to use App message
 {
     console.log("Choose from four commands to use this app. Examples: 'concert-this Cher', 'spotify-this-song Hakuna Matata', 'movie-this Jurassic Park', or 'do-what-it-says'. If your artist has a character in their name, put single quotes around it!");
