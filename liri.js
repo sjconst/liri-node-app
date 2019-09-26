@@ -9,16 +9,22 @@ var fs = require("fs");
 //Global Variables
 var secondArg = process.argv[2].toLowerCase();
 var command, input;
+if(process.argv[3].includes("$")){
+    console.log("put single quotes around that artist/movie")
+};
 //How to use App message
 {
-    console.log("Choose from four commands to use this app: concert-this + name of an artist, spotify-this-song + name of a song, movie-this + name of a movie, or do-what-it-says");
+    console.log("Choose from four commands to use this app. Examples: 'concert-this Cher', 'spotify-this-song Hakuna Matata', 'movie-this Jurassic Park', or 'do-what-it-says'. If your artist has a character in their name, put single quotes around it!");
 }
-//Processor
+//Processor, sets command and input, calls functions
 if(process.argv.length > 3 && secondArg != "do-what-it-says"){  
     command = process.argv[2].toLowerCase();
     input = "";
     for(var i = 3; i < process.argv.length; i++){
         input += process.argv[i];
+        if(i != process.argv.length - 1){
+            input += " ";
+        }
     };
     processCommand(input, command);
 } else if(secondArg === "do-what-it-says"){
@@ -26,8 +32,7 @@ if(process.argv.length > 3 && secondArg != "do-what-it-says"){
         if(error) {
             return console.log(error)
         }
-        content = data.split(",");   
-        console.log(content);   
+        content = data.split(",");         
         command = content[0].toLowerCase();
         var x = content[1].toLowerCase();   
         input = x.replace(/['"]+/g, '');
@@ -37,6 +42,8 @@ if(process.argv.length > 3 && secondArg != "do-what-it-says"){
 } 
 //Callback Functions
 function getConcert(input){
+    //Input: a string, expects the name of a musician/singer
+    //Output: console logs upcoming venues artists will play at, retrieved from bandsintown API
     var artist = input;
     var url = `https://rest.bandsintown.com/artists/${artist}/events?app_id=codingbootcamp&date=upcoming`;    
     axios
@@ -68,6 +75,8 @@ function getConcert(input){
     }) 
 };
 function getSpotify(input){    
+    //Input: a string, expects the name of a song
+    //Output: console logs details of string retrieved from spotify API
     if(!input){
         var trackID = "0hrBpAOgrt8RXigk83LLNE";
         console.log("You didn't choose a song, so we picked for you!");
@@ -90,13 +99,13 @@ function getSpotify(input){
     }
 }; 
 function getMovie(input){      
-    //Input: a string
+    //Input: a string, expects the name of a movie
     //Output: if no input, console.log details for Mr. Nobody, else console.log details for input
     if(!input){
         var movie = "Mr. Nobody"
         console.log("You didn't pick a movie, so we picked for you!")
     } else {
-        var movie = input;
+        var movie = input;      
     }    
     var url = `http://www.omdbapi.com/?apikey=trilogy&t=${movie}`;
     axios
@@ -125,11 +134,21 @@ function tryAgain(){
 function processCommand(input, command){
     if(command === "movie-this"){  
         getMovie(input);
+        appendTxt(input);
     } else if(command === "spotify-this-song"){
         getSpotify(input);
+        appendTxt(input);
     } else if(command === "concert-this"){
         getConcert(input);
+        appendTxt(input);
     } else {
         tryAgain();
     }    
+}
+function appendTxt(input){  
+    fs.appendFile("log.txt", `${input}, `, function(error){
+        if(error){
+            console.log(error);
+        } 
+    })    
 }
