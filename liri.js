@@ -1,20 +1,24 @@
+//Node Packages
 require("dotenv").config();
 var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var axios =  require("axios");
 var moment = require("moment");
-var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
+var fs = require("fs");
+//Global Variables
 var secondArg = process.argv[2].toLowerCase();
 var command, input;
+//How to use App message
 {
     console.log("Choose from four commands to use this app: concert-this + name of an artist, spotify-this-song + name of a song, movie-this + name of a movie, or do-what-it-says");
 }
+//Processor
 if(process.argv.length > 3 && secondArg != "do-what-it-says"){  
     command = process.argv[2].toLowerCase();
-    input = [];
+    input = "";
     for(var i = 3; i < process.argv.length; i++){
-        input.push(process.argv[i].toLowerCase());
+        input += process.argv[i];
     };
     processCommand(input, command);
 } else if(secondArg === "do-what-it-says"){
@@ -22,19 +26,23 @@ if(process.argv.length > 3 && secondArg != "do-what-it-says"){
         if(error) {
             return console.log(error)
         }
-        content = data.split(",");      
-        command = content[0];
-        input = content[1];      
+        content = data.split(",");   
+        console.log(content);   
+        command = content[0].toLowerCase();
+        var x = content[1].toLowerCase();   
+        input = x.replace(/['"]+/g, '');
+        console.log("input is now" + input);   
         processCommand(input, command);
     })    
 } 
+//Callback Functions
 function getConcert(input){
     var artist = input;
-    var url = `https://rest.bandsintown.com/artists/${artist}/events?app_id=codingbootcamp&date=upcoming`;
+    var url = `https://rest.bandsintown.com/artists/${artist}/events?app_id=codingbootcamp&date=upcoming`;    
     axios
     .get(url)
     .then(response => {
-        console.log(`${artist} is playing in the following upcoming venues:`)
+        console.log(`${artist} is playing in the following upcoming venues:`);     
         var responseArr = response.data;        
         responseArr.forEach(element => {
             var date = moment(element.datetime).format("MM/DD/YYYY");         
@@ -59,10 +67,10 @@ function getConcert(input){
         console.log(error.config);
     }) 
 };
-function getSpotify(input){
+function getSpotify(input){    
     if(!input){
         var trackID = "0hrBpAOgrt8RXigk83LLNE";
-        console.log("You didn't choose a song, so we picked for you!")
+        console.log("You didn't choose a song, so we picked for you!");
         spotify
         .request(`https://api.spotify.com/v1/tracks/${trackID}`)
         .then(data => {            
